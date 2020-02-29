@@ -149,7 +149,7 @@ public class MusicLibraryImpl implements MusicLibrary{
             for(String e : albumCol.keySet()) {
                // System.out.println(albumCol.getJSONObject(e.toString()));
                 Album tr = new AlbumImpl(albumCol.getJSONObject(e.toString()), "search");
-                System.out.println(tr.getData());
+                //System.out.println(tr.getData());
                 albumMap.put(e, tr.getData());
             }
         } catch (Exception e) {
@@ -179,7 +179,7 @@ public class MusicLibraryImpl implements MusicLibrary{
         for(int i = 0; i < trackSet.size(); i++) {
             vec.put(String.valueOf(i),trackSet.get(i));
         }
-        System.out.println(vec);
+        //System.out.println(vec);
         return vec;
     }
      /**
