@@ -190,7 +190,7 @@ public class MusicBrowserApp extends MediaLibraryGui implements
       for (int i = 0; i<musicList.length; i++){
 
 		 JSONObject test = getConenction().add_TREE(musicList[i]).getData();
-		// System.out.println("TEST: " + test);
+		 System.out.println("TEST: " + test);
          Track tr = getConenction().add_TREE(musicList[i]);
 
          String aMTitle = musicList[i];
@@ -539,9 +539,8 @@ public class MusicBrowserApp extends MediaLibraryGui implements
     * */
    public static void main(String args[]) {
       String name = "first.last";
-      //String key = "eab1524872bc511168bc279f219c9d04";
-      String key;
-	  String host = "10.0.2.15";
+      String key = "eab1524872bc511168bc279f219c9d04";
+      String host = "10.0.2.15";
       String port = "8080";
       if (args.length >= 1){
          host = args[0];
@@ -558,9 +557,9 @@ public class MusicBrowserApp extends MediaLibraryGui implements
       MusicTcpProxy sc = (MusicTcpProxy)new MusicTcpProxy(host, Integer.parseInt(port));
       String[] musicList = sc.getTitle_EXIST();
       for(int i = 0; i < musicList.length; i++) {
-		//System.out.println(musicList[i]);
+		System.out.println(musicList[i]);
 		Track tr = sc.add_TREE(musicList[i]);
-		//System.out.println("Client: " + tr.getSummary());
+		System.out.println("Client: " + tr.getSummary());
 	  }
 	  
 	  

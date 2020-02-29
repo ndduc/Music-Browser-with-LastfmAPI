@@ -35,13 +35,6 @@ public class MusicCollectionTCPJsonRPCServer extends Thread {
       this.id = id;
       skeleton = new MusicLibraryStub(stdCol);
    }
-   
-   /**
-	*	this class initiate server
-	*	taking initiated variable from constructors such as 
-	*	socket and id
-	*	Skeleton acts as template to communicate with client via proxy class
-   */
    public void run() {
       try {
          OutputStream outSock = conn.getOutputStream();
@@ -64,10 +57,6 @@ public class MusicCollectionTCPJsonRPCServer extends Thread {
          System.out.println("I/O exception occurred for the connection:\n"+e.getMessage());
       }
    }
-   
-   /**
-	*	Main class call to launch this server
-   */
    public static void main (String args[]) {
       Socket sock;
       MusicLibrary studCol = new MusicLibraryImpl();

@@ -32,8 +32,8 @@
 	<echo message="Luanch commands are server, java.client, cpp.client"/>
       <echo message="base directory is: ${basedir}"/>
       <echo message="ostype is ${ostype}"/>
-      <echo message="ant cpp.client -Dhost=10.0.2.15 -Dport=8080"/>
-      <echo message="ant java.client -Dhost=10.0.2.15 -Dlastfmkey=eab1524872bc511168bc279f219c9d04 -Dport=8080"/>
+      <echo message="ant cpp.client -Dhost=10.0.2.15 -Dport=8080 -DuserId=Duc -Dlastfmkey=eab1524872bc511168bc279f219c9d04"/>
+      <echo message="ant java.client -Dhost=192.168.1.121 -Dport=8080 -DuserId=Duc2 -Dlastfmkey=eab1524872bc511168bc279f219c9d04"/>
       <echo message="ant server -Dhost=8080"/>
    </target>
 
