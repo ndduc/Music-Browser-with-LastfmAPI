@@ -63,6 +63,9 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
 		/**
 		 * callMethod
 		 * Format request to the correct format then send to server
+		 * Assume client send and retrieve data from server
+		 * this class here acts as bridge for the server and client communication
+		 * For function detail explantaion; trace back to musicLibarayImpl
 		 * */
        public String callMethod(String method, Object[] params){
 		   id++;
@@ -344,7 +347,10 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
     }
     
     
-    //Code for C++ - not use in java
+    /**
+		Dummy proxy for C 
+		in C client, it has this as the built-stub
+	*/
     @Override
     public JSONObject add_TREE_C(String title) {
         System.out.println("PROXY");
@@ -363,6 +369,10 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
         return ret;
     }
     
+	/**
+		Dummy proxy for C 
+		in C client, it has this as the built-stub
+	*/
     @Override
     public JSONObject add_TREE_COL_C(String title) {
         System.out.println("PROXY");
@@ -381,19 +391,36 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
         return ret;
     }
     
-
+	
+	/**
+		Dummy proxy for C 
+		in C client, it has this as the built-stub
+		voided
+	*/
     public Vector<String> add_TREE_genre_C(String title) {
         // TODO Auto-generated method stub
        Vector<String> ret = new Vector<String>();
         return ret;
     }
     
+	/**
+		Dummy proxy for C 
+		in C client, it has this as the built-stub
+		voided
+	*/
     public Vector<String> add_TREE_COL_genre_C(String title) {
         // TODO Auto-generated method stub
        Vector<String> ret = new Vector<String>();
         return ret;
     }
     
+	
+	/**
+		Dummy proxy for C 
+		in C client, it has this as the built-stub
+	*/
+	
+	
     public JSONObject getTrackList_C() {
         // TODO Auto-generated method stub
 
@@ -414,6 +441,11 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
 
     }
     
+	
+	/**
+		Dummy proxy for C 
+		in C client, it has this as the built-stub
+	*/
     public JSONObject getTitle_EXIST_C() {
       System.out.println("PROXY");
         JSONObject ret = null;
