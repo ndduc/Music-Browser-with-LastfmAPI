@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<project name="JsonRPC in CPP using libjson-rpc-cpp" default="targets">
+   <taskdef resource="cpptasks.tasks"/>
+   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+   <property name="src.dir" value="src"/>
+   <property name="lib" value="lib" />
+  <property name="dist.dir" value="bin"/>
+   <property name="classes.dir" value="classes"/>
+   <property name="host" value="127.0.0.1"/>
+   <property name="port" value="8080"/>
+   <property name="lastfmkey" value="KEY HERE"/>
+<property name="userId" value="DUC"/>
+<property name="javafxhome" value="classes/javafx-sdk-13.0.1/"/>
+<property name="javafx-lib-home" value="${javafxhome}lib"/>
+<property name="cxxflag" value="-std=c++14"/>
+            <property name="includepath" value="/usr/local/include:/usr/include/jsoncpp"/>
+            <property name="client.lib.path" value="/usr/local/lib"/>
+            <property name="client.lib.list" value="jsoncpp,jsonrpccpp-client,jsonrpccpp-common,microhttpd,stdc++"/>
+   <property environment="env"/>
+   <!--Set the ostype property: <property name="ostype" value="${env.OSTYPE}"/>-->
+    <condition property="ostype" value="${env.OSTYPE}">
+        <isset property="env.OSTYPE" />
+    </condition>
+    <condition property="ostype" value="env.OSTYPE_inaccessable">
+        <not>
+            <isset property="env.OSTYPE" />
+        </not>
+    </condition>
+
+   <target name="targets">
+      <echo message="Targets are clean, prepare, build.all, build.server, build.client, targets"/>
+	<echo message="Luanch commands are server, java.client, cpp.client"/>
+      <echo message="base directory is: ${basedir}"/>
+      <echo message="ostype is ${ostype}"/>
+      <echo message="ant cpp.client -Dhost=10.0.2.15 -Dport=8080"/>
+      <echo message="ant java.client -Dhost=10.0.2.15 -Dlastfmkey=eab1524872bc511168bc279f219c9d04 -Dport=8080"/>
+      <echo message="ant server -Dhost=8080"/>
+   </target>
+
+   <path id="compile.classpath">
+      <pathelement location="${classes.dir}"/>
+      <fileset dir="${basedir}/lib">
+         <include name="json.jar"/>
+      </fileset>
+
+      <fileset dir="${lib}">
+	<include name="*.jar"/>
+	</fileset> 
+	<fileset dir="${basedir}/${javafx-lib-home}">
+	<include name="javafx.graphics.jar"/>
+	<include name="javafx.base.jar"/>
+	<include name="javafx.media.jar"/>
+	<include name="javafx.swing.jar"/>
+	<include name="javafx.controls.jar"/>
+	<include name="javafx.web.jar"/>
+	<include name="javafx.swt.jar"/>
+	<include name="javafx.fxml.jar"/>
+	<include name="javafx.controls.jar"/>
+	</fileset>
+   </path>
+
+   <path id="compile.classpathServer">
+      <pathelement location="${classes.dir}"/>
+      <fileset dir="${basedir}/lib">
+         <include name="json.jar"/>
+      </fileset>
+   </path>
+
+   <target name="clean">
+      <delete dir="${classes.dir}" failonerror="false"/>
+      <delete dir="${dist.dir}" failonerror="false"/>
+   </target>
+
+   <target name="prepare">
+      <mkdir dir="${classes.dir}"/>
+	<unzip src="${basedir}/lib/assign2Gui.jar" dest="${basedir}/classes"/>
+
+	<mkdir dir="${dist.dir}" />
+      <mkdir dir="${dist.dir}/client" />
+      <mkdir dir="${dist.dir}/server" />
+
+   </target>
+	
+
+
+   <target name="build.all"
+           depends="clean,prepare,build.server,build.client"
+           description="Clean then build java server, and java client"/>
+
+   <target name="build.server" depends="prepare"
+          description="Compile Java server sources">
+     <!-- Compile Java server classes as necessary -->
+     <echo message="tcp server: java -cp classes:lib/json.jar ser321.tcpjsonrpc.server.MusicCollectionTCPJsonRPCServer ${port}"/>
+     <javac srcdir="${src.dir}/java/server"
+            destdir="${classes.dir}"
+            includeantruntime="false">
+        <classpath refid="compile.classpathServer"/>
+    </javac>
+   </target>
+   
+   <target name="build.client" depends="prepare"
+          description="Compile Java client sources">
+     <!-- Compile Java classes as necessary -->
+     <echo message="execute client: java -cp classes:lib/json.jar ser321.tcpjsonrpc.MusicBrowserApp ${host} ${port}"/>
+     <javac srcdir="${src.dir}/java/client"
+            destdir="${classes.dir}"
+            includeantruntime="false">
+        <classpath refid="compile.classpath"/>
+     </javac>
+   </target>
+   
+
+   <target name="compile.server" depends="prepare"
+           description="Compile Java sources">
+      <javac srcdir="${src.dir}/java/server"
+             includeantruntime="false"
+             destdir="${classes.dir}">
+         <classpath refid="compile.classpathServer"/>
+      </javac><!--
+     <rmic classname="ser321.assign3.dnnguye7.server.Album" base="${build}">
+             <classpath refid="compile.classpath"/>
+          </rmic> -->
+   </target>
+
+   <target name="server" depends="compile.server"
+           description="Start client">
+         <echo message="user.dir is: ${user.dir}"/>
+        
+         <java classname="ser321.tcpjsonrpc.server.MusicCollectionTCPJsonRPCServer" fork="yes">
+           <classpath refid="compile.classpathServer"/>
+
+           <arg value="${host}"/> 
+	   
+	 
+         </java>  
+   </target>
+
+
+   <target name="compile.client" depends="prepare"
+           description="Compile Java sources">
+      <javac srcdir="${src.dir}"
+             includeantruntime="false"
+             destdir="${classes.dir}">
+         <classpath refid="compile.classpath"/>
+      </javac><!--
+     <rmic classname="ser321.assign3.dnnguye7.server.Album" base="${build}">
+             <classpath refid="compile.classpath"/>
+          </rmic> -->
+   </target>
+
+
+   <target name="java.client" depends="compile.client"
+           description="Start client">
+         <echo message="user.dir is: ${user.dir}"/>
+        
+         <java classname="ser321.tcpjsonrpc.MusicBrowserApp" fork="yes">
+           <classpath refid="compile.classpath"/>
+
+           <arg value="${host}"/> 
+	   <arg value="${port}"/>
+	   <arg value="${userId}"/>
+	   <arg value="${lastfmkey}"/>
+	   
+	 
+         </java>  
+   </target>
+
+
+<!---CPP Stuffs-->
+
+<target name="build.cpp.client" depends="prepare">
+      <cc outtype="executable" subsystem="console"
+          outfile="${dist.dir}/studentRPCClient"
+          objdir="${dist.dir}/client">
+         <compilerarg value="${cxxflag}"/>
+         <includepath>
+            <pathelement path="${includepath}"/>
+         </includepath>
+         <libset dir="${client.lib.path}" libs="${client.lib.list}"/>
+ 	<libset dir="/usr/lib" libs="stdc++,fltk,fltk_images,curl,jsoncpp,pthread"/>
+         <libset dir="/usr/local/lib" libs="curlpp"/> 
+
+         <fileset dir="${src.dir}/cpp/client" includes="MusicBrowser.cpp, SocketException.cpp,Socket.cpp,CommunicatingSocket.cpp,TCPSocket.cpp"/>
+
+      </cc>
+   </target>
+
+<target name="cpp.client" depends ="build.cpp.client">
+	<echo message="./bin/studentRPCClient ${host} ${port} ${userId} ${lastfmkey}"/>
+     	<exec executable="./bin/studentRPCClient">
+       <arg line= " ${host} ${port} ${userId} ${lastfmkey} "/>
+     </exec>
+   </target>
+
+</project>

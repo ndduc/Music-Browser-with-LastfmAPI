@@ -1,0 +1,124 @@
+[
+    {
+        "method": "removeTrack",
+        "params":["believe"],
+        "returns": true
+    },
+    {
+        "method": "removeAlbum",
+        "params":["believe"],
+        "returns": true
+    },
+    {
+        "method": "removeAlbumCol",
+        "params":["believe"],
+        "returns": true
+    },
+    {
+        "method": "getImage",
+        "params":[ ],
+        "returns": "image"
+    },
+    {
+        "method": "getSummary",
+        "params":[],
+        "returns": "summary"
+    },
+    {
+        "method": "add_ALL",
+        "params":["believe", "cher", "mykey"],
+        "returns": true
+    },
+    {
+        "method": "add_ALBUMCOL",
+        "params":["believe"],
+        "returns": true
+    },
+    {
+        "method": "add_SEARCH",
+        "params":["cher", "believe", "mykey"],
+        "returns": true
+    },
+    {
+        "method": "add_SINGLE",
+        "params":["believe", "cher", "believe", "mykey"],
+        "returns": true
+    },
+    {   
+        "method": "add_TREE",
+        "params":["believe"],
+        "returns":{ }
+    },
+	{   
+        "method": "add_TREE_obj",
+        "params":["believe"],
+        "returns":[]
+    },
+    {   
+        "method": "add_TREE_COL",
+        "params":["believe"],
+        "returns":{ }
+    },
+    {   
+        "method": "add_SEARCH_C",
+        "params":["believe", "test", "test"],
+        "returns":{ }
+    },
+    {   
+        "method": "add_TRACKDIALOG",
+        "params":["believe", "title", "key", "album"],
+        "returns":{ }
+    },
+    {   
+        "method": "add_TREE_genre",
+        "params":["title"],
+        "returns": [ ]
+    },
+    {   
+        "method": "add_TREE_COL_genre",
+        "params":["title"],
+        "returns": [ ]
+    },
+    {   
+        "method": "getTrackList",
+        "params":[],
+        "returns": [ ]
+    },
+    {   
+        "method": "getTitle_EXIST",
+        "params":[],
+        "returns": [ ]
+    },
+
+//Code for C
+    {   
+        "method": "add_TREE_genre_C",
+        "params":["title"],
+        "returns": []
+    },
+    {   
+        "method": "add_TREE_COL_genre_C",
+        "params":["title"],
+        "returns": []
+    },
+    {   
+        "method": "add_TREE_genre_C",
+        "params":["title"],
+        "returns": {}
+    },
+    {   
+        "method": "add_TREE_COL_genre_C",
+        "params":["title"],
+        "returns": {}
+    },
+    {   
+        "method": "getTrackList_C",
+        "params":[],
+        "returns": []
+    },
+    {   
+        "method": "getTitle_EXIST_C",
+        "params":[],
+        "returns": []
+    }
+]
