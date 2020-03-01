@@ -533,8 +533,14 @@ public class MusicLibraryImpl implements MusicLibrary{
             JSONObject tmp = data.getJSONObject("track");
             String duration = tmp.get("duration").toString();
             JSONObject objAl = tmp.getJSONObject("album");
-            JSONObject att = objAl.getJSONObject("@attr");
-            String rank;
+            JSONObject att = null;// = objAl.getJSONObject("@attr");
+            try {
+				att = objAl.getJSONObject("@attr");
+			} catch (Exception e) {
+				att = null;
+				System.out.println("Exception at @Attr");
+			}
+            String rank = null;
             if(att != null) {
 				rank = att.get("position").toString();
 			} else {
