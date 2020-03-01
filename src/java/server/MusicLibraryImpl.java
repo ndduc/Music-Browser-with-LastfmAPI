@@ -565,7 +565,7 @@ public class MusicLibraryImpl implements MusicLibrary{
 					genre.add(jarrTag.getJSONObject(i).get("name").toString());
 				}
 			} else {
-				genre.add("Non-Tag Track");
+				genre.add("No TopTag");
 			}
             
             tmpMap.put("artist", artist);
@@ -657,7 +657,7 @@ public class MusicLibraryImpl implements MusicLibrary{
 		if(att != null) {
 			rank = att.get("position").toString();
 		} else {
-			rank = "99";
+			rank = "No @attr";
 		}
         
         
@@ -679,7 +679,7 @@ public class MusicLibraryImpl implements MusicLibrary{
 			}
 	   }
 	   else {
-		   genre.add("No Tag Track");
+		   genre.add("No TopTag");
 	   }
         
         
