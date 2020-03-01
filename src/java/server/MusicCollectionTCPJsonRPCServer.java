@@ -35,6 +35,12 @@ public class MusicCollectionTCPJsonRPCServer extends Thread {
       this.id = id;
       skeleton = new MusicLibraryStub(stdCol);
    }
+   
+   /**
+   *	run method initiate the server
+	*	taking initated variable by the constructor
+	*	variables are valid socket and valid id and a valid stub
+   */
    public void run() {
       try {
          OutputStream outSock = conn.getOutputStream();
@@ -57,6 +63,11 @@ public class MusicCollectionTCPJsonRPCServer extends Thread {
          System.out.println("I/O exception occurred for the connection:\n"+e.getMessage());
       }
    }
+   
+   /**
+   *	call main to launch server
+	* 	call take variable as arguments
+   */
    public static void main (String args[]) {
       Socket sock;
       MusicLibrary studCol = new MusicLibraryImpl();

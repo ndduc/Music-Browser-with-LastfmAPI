@@ -18,6 +18,8 @@ public interface Track{
 
 	/**
 	 * getter and setter
+	 * This class basically act as contain to store data
+	 * Will be used by java client
 	 * */
     public String getSummary() ;
     public String getTitleString() ;

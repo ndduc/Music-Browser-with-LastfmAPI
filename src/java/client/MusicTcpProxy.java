@@ -62,7 +62,20 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
     
 		/**
 		 * callMethod
-		 * Format request to the correct format then send to server
+		 * Format the request to the correct format then send to server
+		 * This method in particular act as a communication bridge for client and server
+		 * scenario
+		 * client call a method from this class -> method call the callMethod -> send data to server
+		 *		-> if the sent data is valid -> server respond with the valid message that contain valid data
+		 * Other word:
+		 *		callMethod() == formatter, sender and retriever
+		 *		other methods() == studs;
+		 * For detail definition of each stud, please trace back to musicLibarayImpl
+		 *
+		 *	Additional:
+		 *	this class contain stud for Cpp
+		 *	however it is not used, because cpp have stud implemented in the its source code
+		 *	please go to cpp source code for more detail
 		 * */
        public String callMethod(String method, Object[] params){
 		   id++;
@@ -238,6 +251,9 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
         return ret;
     }
     
+	/**
+	*	stud for Cpp application
+	*/
     @Override
     public JSONObject add_SEARCH_C(String artist, String album, String key) {
         System.out.println("PROXY");
@@ -344,7 +360,9 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
     }
     
     
-    //Code for C++ - not use in java
+    /**
+	*	stud for Cpp application
+	*/
     @Override
     public JSONObject add_TREE_C(String title) {
         System.out.println("PROXY");
@@ -363,6 +381,9 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
         return ret;
     }
     
+	/**
+	*	stud for Cpp application
+	*/
     @Override
     public JSONObject add_TREE_COL_C(String title) {
         System.out.println("PROXY");
@@ -381,7 +402,9 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
         return ret;
     }
     
-
+	/**
+	*	stud for Cpp application
+	*/
     public Vector<String> add_TREE_genre_C(String title) {
         // TODO Auto-generated method stub
        Vector<String> ret = new Vector<String>();
@@ -394,6 +417,9 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
         return ret;
     }
     
+	/**
+	*	stud for Cpp application
+	*/
     public JSONObject getTrackList_C() {
         // TODO Auto-generated method stub
 
@@ -413,6 +439,10 @@ public class MusicTcpProxy extends Object implements MusicLibrary {
         return ret;
 
     }
+	
+	/**
+	*	stud for Cpp application
+	*/
     
     public JSONObject getTitle_EXIST_C() {
       System.out.println("PROXY");
