@@ -49,6 +49,12 @@ public class MusicLibraryStub extends Object {
       * act as stud similar to Cpp stud
       * data from client will be sent and received from Server
       * through this stud
+	  * 
+	  * Detail:
+	  *		This is a stud for server
+	  *		similar to proxy or stud in cpp
+	  *		call method == formatter, data receiver, and data sender
+	  *		
       */
      public String callMethod(String request){
          JSONObject result = new JSONObject();

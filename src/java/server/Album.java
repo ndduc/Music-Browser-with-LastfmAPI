@@ -13,6 +13,7 @@ import org.json.JSONObject;
  * @version 02/26/2020
  */
 public interface Album {
+
     public JSONObject getData();
 
     public String getAuthor();
