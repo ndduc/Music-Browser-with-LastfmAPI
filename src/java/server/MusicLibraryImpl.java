@@ -532,12 +532,20 @@ public class MusicLibraryImpl implements MusicLibrary{
            
             JSONObject tmp = data.getJSONObject("track");
             String duration = tmp.get("duration").toString();
-            JSONObject objAl = tmp.getJSONObject("album");
-            
+            //JSONObject objAl = tmp.getJSONObject("album");
+            JSONObject objAl = null;//tmp.getJSONObject("album");
+			try {
+				objAl = tmp.getJSONObject("album");
+			}catch (Exception e) {
+				objAl = null;
+			}
             
             JSONObject att = null;
             try {
-				att = objAl.getJSONObject("@attr");
+				if(objAl != null)
+					att = objAl.getJSONObject("@attr");
+				else 
+					att = null;
 			} catch (Exception ez) {
 				att = null;
 				System.out.println("Exception at Dialog @attr");
@@ -547,7 +555,7 @@ public class MusicLibraryImpl implements MusicLibrary{
 			if (att != null) {
 				 rank = att.get("position").toString();
 			} else {
-				rank = "";
+				rank = "0";
 			}
             
             JSONObject objTag = null;
@@ -642,22 +650,33 @@ public class MusicLibraryImpl implements MusicLibrary{
         JSONObject objArt = tmp.getJSONObject("artist");
         String artist = objArt.get("name").toString();
         
-        JSONObject objAl = tmp.getJSONObject("album");
+        
+        JSONObject objAl = null;//tmp.getJSONObject("album");
+        try {
+			objAl = tmp.getJSONObject("album");
+		}catch (Exception e) {
+			objAl = null;
+		}
         String album = al;
         
         JSONObject att = null; //= objAl.getJSONObject("@attr");
         
         try {
-			att = objAl.getJSONObject("@attr");
+			if(objAl != null)
+					att = objAl.getJSONObject("@attr");
+			else 
+					att = null;
 		} catch (Exception e) {
 			att = null;
 		}
+		
+		
 		
 		String rank = null;//att.get("position").toString();
 		if(att != null) {
 			rank = att.get("position").toString();
 		} else {
-			rank = "No @attr";
+			rank = "0";
 		}
         
         
