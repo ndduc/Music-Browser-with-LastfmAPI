@@ -550,12 +550,23 @@ public class MusicLibraryImpl implements MusicLibrary{
 				rank = "";
 			}
             
-            JSONObject objTag = tmp.getJSONObject("toptags");
-            JSONArray jarrTag = objTag.getJSONArray("tag");
-            List<String> genre = new ArrayList<String>();
-            for (int i = 0; i < jarrTag.length(); i++) {
-                genre.add(jarrTag.getJSONObject(i).get("name").toString());
-            }
+            JSONObject objTag = null;
+            try {
+				objTag  = tmp.getJSONObject("toptags");
+			} catch (Exception ez) {
+				objTag = null;
+				System.out.println("Exception at Dialog Tag");
+			}
+			List<String> genre = new ArrayList<String>();
+			if(objTag != null) {
+				JSONArray jarrTag = objTag.getJSONArray("tag");
+				
+				for (int i = 0; i < jarrTag.length(); i++) {
+					genre.add(jarrTag.getJSONObject(i).get("name").toString());
+				}
+			} else {
+				genre.add("Non-Tag Track");
+			}
             
             tmpMap.put("artist", artist);
             tmpMap.put("title", title);
@@ -633,19 +644,44 @@ public class MusicLibraryImpl implements MusicLibrary{
         
         JSONObject objAl = tmp.getJSONObject("album");
         String album = al;
-        JSONObject att = objAl.getJSONObject("@attr");
-        String rank = att.get("position").toString();
+        
+        JSONObject att = null; //= objAl.getJSONObject("@attr");
+        
+        try {
+			att = objAl.getJSONObject("@attr");
+		} catch (Exception e) {
+			att = null;
+		}
+		
+		String rank = null;//att.get("position").toString();
+		if(att != null) {
+			rank = att.get("position").toString();
+		} else {
+			rank = "99";
+		}
+        
         
         String tit = title;
         
-        JSONObject objTag = tmp.getJSONObject("toptags");
-        JSONArray jarrTag = objTag.getJSONArray("tag");
+        JSONObject objTag  = null;
+        try {
+			objTag = tmp.getJSONObject("toptags");
+		} catch(Exception ez) {
+			objTag = null;
+		}
+       // JSONObject objTag = tmp.getJSONObject("toptags");
+       List<String> genre = new ArrayList<String>();
+       if(objTag != null) {
+		   JSONArray jarrTag = objTag.getJSONArray("tag");
+			
+			for (int i = 0; i < jarrTag.length(); i++) {
+				genre.add(jarrTag.getJSONObject(i).get("name").toString());
+			}
+	   }
+	   else {
+		   genre.add("No Tag Track");
+	   }
         
-        
-        List<String> genre = new ArrayList<String>();
-        for (int i = 0; i < jarrTag.length(); i++) {
-            genre.add(jarrTag.getJSONObject(i).get("name").toString());
-        }
         
         if(option.equalsIgnoreCase("SINGLE")) {
             writetoJson_TRACK( title,  album,  artist,  duration,
