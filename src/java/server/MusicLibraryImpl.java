@@ -534,7 +534,14 @@ public class MusicLibraryImpl implements MusicLibrary{
             String duration = tmp.get("duration").toString();
             JSONObject objAl = tmp.getJSONObject("album");
             JSONObject att = objAl.getJSONObject("@attr");
-            String rank = att.get("position").toString();
+            String rank;
+            if(att != null) {
+				rank = att.get("position").toString();
+			} else {
+				rank = "None";
+			} 
+			
+            
             JSONObject objTag = tmp.getJSONObject("toptags");
             JSONArray jarrTag = objTag.getJSONArray("tag");
             List<String> genre = new ArrayList<String>();
