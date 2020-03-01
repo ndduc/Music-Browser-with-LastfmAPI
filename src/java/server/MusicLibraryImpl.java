@@ -210,8 +210,8 @@ public class MusicLibraryImpl implements MusicLibrary{
      * 	Method perform read from URL
      * */
     public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+		System.out.println("TEST: " + url);
         InputStream is = new URL(url).openStream();
-        System.out.println("[SERVER-URL]: " + url);
         try {
           BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
           String jsonText = readAll(rd);
@@ -533,20 +533,22 @@ public class MusicLibraryImpl implements MusicLibrary{
             JSONObject tmp = data.getJSONObject("track");
             String duration = tmp.get("duration").toString();
             JSONObject objAl = tmp.getJSONObject("album");
-            JSONObject att = null;// = objAl.getJSONObject("@attr");
+            
+            
+            JSONObject att = null;
             try {
 				att = objAl.getJSONObject("@attr");
-			} catch (Exception e) {
+			} catch (Exception ez) {
 				att = null;
-				System.out.println("Exception at @Attr");
+				System.out.println("Exception at Dialog @attr");
 			}
-            String rank = null;
-            if(att != null) {
-				rank = att.get("position").toString();
+         //   JSONObject att = objAl.getJSONObject("@attr");
+			String rank = null ;
+			if (att != null) {
+				 rank = att.get("position").toString();
 			} else {
-				rank = "None";
-			} 
-			
+				rank = "";
+			}
             
             JSONObject objTag = tmp.getJSONObject("toptags");
             JSONArray jarrTag = objTag.getJSONArray("tag");
