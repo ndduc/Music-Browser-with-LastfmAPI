@@ -327,7 +327,14 @@ class MediaClient : public MediaClientGui {
 					trackInput->value(valTr["title"].asCString());
 					albumInput->value(valTr["album"].asCString());
 					authorInput->value(valTr["author"].asCString());
-					rankInput->value(valTr["rank"].asCString());
+					
+					try {
+						rankInput->value(valTr["rank"].asCString());
+					} catch (std::exception & e) {
+						rankInput->value("0");
+						std::cout << e.what() << std::endl;
+					}
+					
 					summaryMLI->value(valTr["summary"].asCString());
 					
 					string dura = valTr["duration"].asString();
@@ -337,9 +344,18 @@ class MediaClient : public MediaClientGui {
 					
 					timeInput->value(charD);
 					genreChoice->clear();
-					for (int i = 0; i < valTr["genre"].size(); i++) {
+					
+					try {
+						for (int i = 0; i < valTr["genre"].size(); i++) {
 						genreChoice->add(valTr["genre"][i].asCString());
+						}
+					} catch (std::exception & e) {
+						genreChoice->add("unknown");
+						std::cout << e.what() << std::endl;
 					}
+					
+					
+					
 
 					genreChoice->value(1);
 					
@@ -413,18 +429,22 @@ class MediaClient : public MediaClientGui {
 						titleList.push_back(title_Exsit[id].asString());
 			}
 			
+			
 			/////////////
 			
 			for(int i = 0; i < titleList.size(); i++) {
 				
-				
+				cout << "cp" << endl;
+				cout << "cp" << titleList[i] << endl;
 				js = add_TREE_C(titleList[i]);//("Roads Untraveled");
 				z = js.length();
+				cout << "cp 1" << endl;
 				char_ar[z + 1];
 				strcpy(char_ar, js.c_str());
 				echoStringLen = strlen(char_ar); 
+				cout << echoStringLen << endl;
 				Json::Value addTree =  getResult(char_ar, echoStringLen, ip, port );
-				
+				cout << "cp 2" << endl;
 				masterData[titleList[i]] = addTree;
 			}
 			cout << "Rebuilding Tree" << endl;
@@ -976,9 +996,12 @@ class MediaClient : public MediaClientGui {
 	 * trigger on upon tree build
 	 * */
 	std::string add_TREE_C(string title) {
+		cout << "HIT HERE" << endl;
+		cout << title << endl;
 		string header = createJsonHeader("add_TREE_C");
 		string param = "params\":[\""+ title +"\"]}";
 		string rem = header + param;
+		cout << rem << endl;
 		return rem;
 	}
 	
@@ -1159,6 +1182,7 @@ string covertTime(string duration, int option) {
 	 * this program will take received data as json then manipulate it
 	 * */
 	Json::Value getResult(char *char_ar, int echoStringLen, string ip, int port) {
+		cout << "Echo: " << endl;
 		const int RCVBUFSIZE = 4096;    // Size of receive buffer
 		Json::Value result;
 		Json::Value finalRes;
@@ -1182,9 +1206,9 @@ string covertTime(string duration, int option) {
 			  echoBuffer[bytesReceived] = '\0';        // Terminate the string!
 			//  cout << echoBuffer;                      // Print the echo buffer
 			
-			  cout << "TEST: "<<echoBuffer  << endl;
 			  result = echoBuffer;
 			  
+			  cout << "TEST: "<<result  << endl;
 			  string opt =  "{\"id\":0,\"jsonrpc\":\"2.0\"}";
 			  string opt2 = "{\"result\":[],\"id\":0,\"jsonrpc\":\"2.0\"}";
 			  string opt3 = "{\"result\":{},\"id\":0,\"jsonrpc\":\"2.0\"}";

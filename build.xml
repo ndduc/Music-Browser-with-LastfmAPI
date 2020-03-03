@@ -28,12 +28,14 @@
     </condition>
 
    <target name="targets">
-      <echo message="Targets are clean, prepare, build.all, build.server, build.client, targets"/>
-	<echo message="Luanch commands are server, java.client, cpp.client"/>
+      <echo message="Targets are clean, prepare, build.all, compile.server, compile.client, compile.cpp.client, server, java.client, java.client.samemachine, cpp.client, cpp.client.samemachine"/>
+	<echo message="java.client.samemachine and cpp.client.samemachine use when deployed multiple clients on the same virtual machine, to have it work properly program must be build first"/>
       <echo message="base directory is: ${basedir}"/>
       <echo message="ostype is ${ostype}"/>
       <echo message="ant cpp.client -Dhost=10.0.2.15 -Dport=8080 -DuserId=Duc -Dlastfmkey=eab1524872bc511168bc279f219c9d04"/>
-      <echo message="ant java.client -Dhost=192.168.1.121 -Dport=8080 -DuserId=Duc2 -Dlastfmkey=eab1524872bc511168bc279f219c9d04"/>
+      <echo message="ant java.client -Dhost=10.0.2.15 -Dport=8080 -DuserId=Duc2 -Dlastfmkey=eab1524872bc511168bc279f219c9d04"/>
+	<echo message="ant java.client.samemachine -Dhost=10.0.2.15 -Dport=8080 -DuserId=Duc2 -Dlastfmkey=eab1524872bc511168bc279f219c9d04"/>
+	<echo message="ant cpp.client.samemachine -Dhost=10.0.2.15 -Dport=8080 -DuserId=Duc2 -Dlastfmkey=eab1524872bc511168bc279f219c9d04"/>
       <echo message="ant server -Dport=8080"/>
    </target>
 
@@ -96,6 +98,23 @@
             includeantruntime="false">
         <classpath refid="compile.classpathServer"/>
     </javac>
+
+<cc outtype="executable" subsystem="console"
+          outfile="${dist.dir}/studentRPCClient"
+          objdir="${dist.dir}/client">
+         <compilerarg value="${cxxflag}"/>
+         <includepath>
+            <pathelement path="${includepath}"/>
+         </includepath>
+         <libset dir="${client.lib.path}" libs="${client.lib.list}"/>
+ 	<libset dir="/usr/lib" libs="stdc++,fltk,fltk_images,curl,jsoncpp,pthread"/>
+         <libset dir="/usr/local/lib" libs="curlpp"/> 
+
+         <fileset dir="${src.dir}/cpp/client" includes="MusicBrowser.cpp, SocketException.cpp,Socket.cpp,CommunicatingSocket.cpp,TCPSocket.cpp"/>
+
+      </cc>
+
+
    </target>
    
    <target name="build.client" depends="prepare"
@@ -166,9 +185,25 @@
    </target>
 
 
+   <target name="java.client.samemachine"
+           description="Start client">
+         <echo message="user.dir is: ${user.dir}"/>
+        
+         <java classname="ser321.tcpjsonrpc.MusicBrowserApp" fork="yes">
+           <classpath refid="compile.classpath"/>
+
+           <arg value="${host}"/> 
+	   <arg value="${port}"/>
+	   <arg value="${userId}"/>
+	   <arg value="${lastfmkey}"/>
+	   
+	 
+         </java>  
+   </target>
+
 <!---CPP Stuffs-->
 
-<target name="build.cpp.client" depends="prepare">
+<target name="compile.cpp.client" depends="prepare">
       <cc outtype="executable" subsystem="console"
           outfile="${dist.dir}/studentRPCClient"
           objdir="${dist.dir}/client">
@@ -185,7 +220,15 @@
       </cc>
    </target>
 
-<target name="cpp.client" depends ="build.cpp.client">
+<target name="cpp.client" depends ="compile.cpp.client">
+	<echo message="./bin/studentRPCClient ${host} ${port} ${userId} ${lastfmkey}"/>
+     	<exec executable="./bin/studentRPCClient">
+       <arg line= " ${host} ${port} ${userId} ${lastfmkey} "/>
+     </exec>
+   </target>
+
+
+	<target name="cpp.client.samemachine">
 	<echo message="./bin/studentRPCClient ${host} ${port} ${userId} ${lastfmkey}"/>
      	<exec executable="./bin/studentRPCClient">
        <arg line= " ${host} ${port} ${userId} ${lastfmkey} "/>

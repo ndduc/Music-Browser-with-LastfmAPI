@@ -428,8 +428,10 @@ public class MusicBrowserApp extends MediaLibraryGui implements
                 this.revalidate();
                 this.repaint();
           }else if(e.getActionCommand().equals("Search")) {
-            addAlbumHelper(artistSearchJTF.getText(), albumSearchJTF.getText());
-            addAlbumDialog(this, lastFMKey);
+				addAlbumHelper(artistSearchJTF.getText(), albumSearchJTF.getText());
+				addAlbumDialog(this, lastFMKey);
+			
+            
           }else if(e.getActionCommand().equals("Tree Refresh")) {
             try {
                 rebuildTree();
@@ -699,34 +701,38 @@ try {
                       checker = 0;
                       btnSearch.setText("Search");
                       btnAddAll.setEnabled(false);
-                  } else if (checker == 0 ) {
+                  } else if (checker == 0 && (!txtArtist.getText().equalsIgnoreCase("") && !txtAlbum.getText().equalsIgnoreCase(""))) {
                       try {
-                          getConenction().add_SEARCH(txtArtist.getText(), txtAlbum.getText() , txtKey.getText());
-                      //    debugString("txtArtist.get", txtArtist.getText());
-                      //    debugString("txtAlbum.get", txtAlbum.getText());
-                      for(int i = 0; i < getConenction().getTrackList().length; i++) {
-                          JButton btnTmp = new JButton();
-                          btnTmp.setText(getConenction().getTrackList()[i]);
-                          btnTmp.addActionListener(new ActionListener() {
-                              @Override
-                              public void actionPerformed(ActionEvent e) {
-                                  // TODO Auto-generated method stub
-                                  if(e.getSource() == btnTmp) {
-                                    //  System.out.println(btnTmp.getText());
-                                      JSONObject tmpMap = 
-                                              getConenction().add_TRACKDIALOG(txtArtist.getText(), btnTmp.getText() , txtKey.getText(), txtAlbum.getText());
-                                      addTrackDialog(txtKey.getText(), btnTmp.getText(), tmpMap, d, mainFrame);
-                                      d.setVisible(false);
-                                  }
-                              }
-                          });
-                          content.add(btnTmp);
-                          d.validate();
-                      }
-                      btnAddAll.setEnabled(true);/*
-                      txtArtist.setText(""); txtAlbum.setText("");*/
-                      btnSearch.setText("Clean Table");
-                      checker = 1;
+                          boolean test = getConenction().add_SEARCH(txtArtist.getText(), txtAlbum.getText() , txtKey.getText());
+                          System.out.println("TREST: " + test);
+						     debugString("txtArtist.get", txtArtist.getText());
+						      debugString("txtAlbum.get", txtAlbum.getText());
+						  if(test) 
+						  {
+							  for(int i = 0; i < getConenction().getTrackList().length; i++) {
+								  JButton btnTmp = new JButton();
+								  btnTmp.setText(getConenction().getTrackList()[i]);
+								  btnTmp.addActionListener(new ActionListener() {
+									  @Override
+									  public void actionPerformed(ActionEvent e) {
+										  // TODO Auto-generated method stub
+										  if(e.getSource() == btnTmp) {
+											//  System.out.println(btnTmp.getText());
+											  JSONObject tmpMap = 
+													  getConenction().add_TRACKDIALOG(txtArtist.getText(), btnTmp.getText() , txtKey.getText(), txtAlbum.getText());
+											  addTrackDialog(txtKey.getText(), btnTmp.getText(), tmpMap, d, mainFrame);
+											  d.setVisible(false);
+										  }
+									  }
+								  });
+								  content.add(btnTmp);
+								  d.validate();
+							  }
+						  }
+						  btnAddAll.setEnabled(true);/*
+						  txtArtist.setText(""); txtAlbum.setText("");*/
+						  btnSearch.setText("Clean Table");
+						  checker = 1;
                       } catch (Exception ei ) {
                           ei.printStackTrace();
                       }

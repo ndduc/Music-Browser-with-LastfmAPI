@@ -285,10 +285,13 @@ public class MusicLibraryImpl implements MusicLibrary{
             JSONObject data = readJsonFromUrl(urlAl);
             trackList = decodeAlbumForTrackList(data);
             decodeAlbumForCollection(data);
+            return true;
         } catch (Exception e) {
+			
             e.printStackTrace();
+            return false;
         }
-        return true;
+        
     }
     
     /**
@@ -298,13 +301,18 @@ public class MusicLibraryImpl implements MusicLibrary{
      * C - support method 
      * */
     public JSONObject add_SEARCH_C(String artist, String album, String key) {
-		add_SEARCH( artist,  album,  key);
-		JSONObject obj = new JSONObject();
-		List<String> tmp = trackList;
-		for(int i = 0; i < tmp.size(); i++) {
-			obj.put(String.valueOf(i), tmp.get(i));
+		boolean test = add_SEARCH( artist,  album,  key);
+		if(test) {
+			JSONObject obj = new JSONObject();
+			List<String> tmp = trackList;
+			for(int i = 0; i < tmp.size(); i++) {
+				obj.put(String.valueOf(i), tmp.get(i));
+			}
+			return obj;
+		} else {
+			return null;
 		}
-		return obj;
+		
 	}
     
     /**
@@ -575,6 +583,12 @@ public class MusicLibraryImpl implements MusicLibrary{
 			} else {
 				genre.add("No TopTag");
 			}
+			
+			if(genre.size() < 1) {
+				for (int i = 0; i < 2; i++) {
+					genre.add("none");
+				}
+			}
             
             tmpMap.put("artist", artist);
             tmpMap.put("title", title);
@@ -618,6 +632,7 @@ public class MusicLibraryImpl implements MusicLibrary{
                     + "&track="+codeTitle+ ""
                     + "&format=json";
             
+            System.out.println(urlTr);
             JSONObject data = readJsonFromUrl(urlTr);
             decodeTrack_ADD(title, data, "ALL", album);
         } catch (Exception e) {
@@ -693,12 +708,31 @@ public class MusicLibraryImpl implements MusicLibrary{
        if(objTag != null) {
 		   JSONArray jarrTag = objTag.getJSONArray("tag");
 			
-			for (int i = 0; i < jarrTag.length(); i++) {
+			if(jarrTag != null) {
+				for (int i = 0; i < jarrTag.length(); i++) {
 				genre.add(jarrTag.getJSONObject(i).get("name").toString());
+				}
+			} else {
+				String g = "none";
+			   for(int i = 0; i < 2; i++) {
+				   genre.add(g);
+			   }
 			}
+			
 	   }
 	   else {
-		   genre.add("No TopTag");
+		   String g = "none";
+		   for(int i = 0; i < 2; i++) {
+			   genre.add(g);
+		   }
+		   
+	   }
+	   
+	   if(genre.size() < 1) {
+		String g = "none";
+		   for(int i = 0; i < 2; i++) {
+			   genre.add(g);
+		   }
 	   }
         
         
